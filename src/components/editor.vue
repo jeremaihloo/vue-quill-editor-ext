@@ -13,6 +13,10 @@ const Quill = window.Quill || _Quill
 import ImageResize from 'quill-image-resize-module'
 
 Quill.register('modules/imageResize', ImageResize)
+
+import extension from './extensions'
+extension.register()
+
 // pollfill
 if (typeof Object.assign !== 'function') {
   Object.defineProperty(Object, 'assign', {
