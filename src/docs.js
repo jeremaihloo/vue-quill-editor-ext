@@ -5,7 +5,7 @@ import Buefy from 'buefy'
 Vue.use(Buefy)
 import App from './app'
 
-import './styles/app.scss'
+import './styles/ext.less'
 
 Vue.config.productionTip = false
 
