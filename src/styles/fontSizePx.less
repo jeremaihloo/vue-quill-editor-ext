@@ -1,0 +1,14 @@
+.ql-size {
+  .genFontSizePx(@n, @i: 10) when (@i =< @n) {
+    .ql-picker-item[data-value='@{i}px']::before {
+      content: '@{i}px' !important;
+      font-size: 0px + @i !important;
+    }
+    .ql-picker-label[data-value='@{i}px']::before {
+      content: '@{i}px' !important;
+    }
+    .genFontSizePx(@n, (@i + 2));
+  }
+
+  .genFontSizePx(36);
+}
