@@ -92,10 +92,13 @@ export class Toolbar extends BaseModule {
       this.toolbar.appendChild(button)
     })
 
-    const cropBtn = document.createElement('span')
-    cropBtn.innerText = '裁剪'
-    Object.assign(cropBtn.style, this.options.toolbarCropButtonStyles)
-    this.toolbar.appendChild(cropBtn)
+    // const cropBtn = document.createElement('span')
+    // cropBtn.innerText = '裁剪'
+    // Object.assign(cropBtn.style, this.options.toolbarCropButtonStyles)
+    // this.toolbar.appendChild(cropBtn)
+    // cropBtn.addEventListener('click', () => {
+    //     const cropDiv = document.createElement('div')
+    // })
   }
 
   _selectButton = button => {
