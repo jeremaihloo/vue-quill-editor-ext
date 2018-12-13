@@ -1,6 +1,7 @@
 export class BaseModule {
   constructor (resizer) {
     this.overlay = resizer.overlay
+    this.position = resizer.position
     this.img = resizer.img
     this.options = resizer.options
     this.requestUpdate = resizer.onUpdate

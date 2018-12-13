@@ -7,7 +7,8 @@ export default {
   overlayStyles: {
     position: 'absolute',
     boxSizing: 'border-box',
-    border: '1px dashed #444'
+    border: '1px dashed #444',
+    backgroundColor: 'rgba(255,255,255,0.5)'
   },
   handleStyles: {
     position: 'absolute',
@@ -64,5 +65,14 @@ export default {
     fill: '#444',
     stroke: '#444',
     strokeWidth: '2'
+  },
+  cropBtnStyles: {
+    backgroundColor: '#cccccc',
+    border: '1px solid #999',
+    width: '80px',
+    height: '30px',
+    position: 'absolute',
+    lineHeight: '30px',
+    cursor: 'pointer'
   }
 }

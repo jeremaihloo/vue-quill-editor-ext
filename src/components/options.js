@@ -3,7 +3,7 @@ export default {
   boundary: document.body,
   modules: {
     imageResize: {
-      modules: ['Resize', 'DisplaySize', 'Toolbar']
+      modules: ['Resize', 'DisplaySize']
     },
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],

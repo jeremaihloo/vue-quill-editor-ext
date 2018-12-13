@@ -107,6 +107,13 @@ export default class ImageResize {
       this.hideOverlay()
     }
 
+    this.position = {
+      left: this.img.left,
+      top: this.img.top,
+      width: this.img.width,
+      height: this.img.height
+    }
+
     this.quill.setSelection(null)
 
     // prevent spurious text selection
@@ -122,6 +129,11 @@ export default class ImageResize {
 
     this.quill.root.parentNode.appendChild(this.overlay)
 
+    this.cropBtn = document.createElement('div')
+    this.cropBtn.innerText = '确认裁剪'
+    Object.assign(this.cropBtn.style, this.options.cropBtnStyles)
+    this.quill.root.parentNode.appendChild(this.cropBtn)
+
     this.repositionElements()
   }
 
@@ -133,6 +145,8 @@ export default class ImageResize {
     // Remove the overlay
     this.quill.root.parentNode.removeChild(this.overlay)
     this.overlay = undefined
+    this.quill.root.parentNode.removeChild(this.cropBtn)
+    this.cropBtn = undefined
 
     // stop listening for image deletion or movement
     document.removeEventListener('keyup', this.checkImage)
@@ -149,15 +163,24 @@ export default class ImageResize {
 
     // position the overlay over the image
     const parent = this.quill.root.parentNode
-    const imgRect = this.img.getBoundingClientRect()
+    const imgRealRect = this.img.getBoundingClientRect()
+    const imgRect = this.position
+    imgRect.top = this.position.top ? this.position.top : imgRealRect.top
+    imgRect.left = this.position.left ? this.position.left : imgRealRect.left
     const containerRect = parent.getBoundingClientRect()
 
-    Object.assign(this.overlay.style, {
+    const overStyle = {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
       top: `${imgRect.top - containerRect.top + parent.scrollTop}px`,
       width: `${imgRect.width}px`,
       height: `${imgRect.height}px`
-    })
+    }
+    Object.assign(this.overlay.style, overStyle)
+    const cropStyle = {
+      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width}px`,
+      top: `${imgRect.top - containerRect.top + parent.scrollTop}px`
+    }
+    Object.assign(this.cropBtn.style, cropStyle)
   }
 
   hide = () => {
