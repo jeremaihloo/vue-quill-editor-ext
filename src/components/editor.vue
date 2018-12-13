@@ -10,7 +10,7 @@
 import _Quill from 'quill'
 import defaultOptions from './options'
 const Quill = window.Quill || _Quill
-import ImageResize from 'quill-image-resize-module'
+import ImageResize from '../third/ImageResize'
 
 Quill.register('modules/imageResize', ImageResize)
 
