@@ -84,7 +84,6 @@ export class Toolbar extends BaseModule {
       if (idx > 0) {
         button.style.borderLeftWidth = '0'
       }
-      console.log(button)
       Object.assign(button.children[0].style, this.options.toolbarButtonSvgStyles)
       if (alignment.isApplied()) {
         // select button if previously applied
@@ -92,6 +91,11 @@ export class Toolbar extends BaseModule {
       }
       this.toolbar.appendChild(button)
     })
+
+    const cropBtn = document.createElement('span')
+    cropBtn.innerText = '裁剪'
+    Object.assign(cropBtn.style, this.options.toolbarCropButtonStyles)
+    this.toolbar.appendChild(cropBtn)
   }
 
   _selectButton = button => {

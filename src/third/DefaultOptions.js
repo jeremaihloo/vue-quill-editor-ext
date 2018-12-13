@@ -51,6 +51,15 @@ export default {
     border: '1px solid #999',
     verticalAlign: 'middle'
   },
+  toolbarCropButtonStyles: {
+    display: 'inline-block',
+    width: '40px',
+    height: '24px',
+    lineHeight: '24px',
+    background: 'white',
+    border: '1px solid #999',
+    verticalAlign: 'middle'
+  },
   toolbarButtonSvgStyles: {
     fill: '#444',
     stroke: '#444',
