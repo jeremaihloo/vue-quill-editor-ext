@@ -102,6 +102,16 @@ export default class ImageResize {
     this.initializeModules()
   }
 
+  data2blob (base64Data) {
+    const byteString = atob(base64Data.split(',')[1])// base64 解码
+    const mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0]// mime类型
+    const arrayBuffer = new ArrayBuffer(byteString.length)// 创建缓冲数组
+    const intArray = new Uint8Array(arrayBuffer)// 创建视图
+    for (var i = 0; i < byteString.length; i++) {
+      intArray[i] = byteString.charCodeAt(i)
+    }
+    return new Blob([intArray], {type: mimeString})// 转成blob
+  }
   showOverlay = () => {
     if (this.overlay) {
       this.hideOverlay()
@@ -126,15 +136,45 @@ export default class ImageResize {
     // Create and add the overlay
     this.overlay = document.createElement('div')
     Object.assign(this.overlay.style, this.options.overlayStyles)
-
     this.quill.root.parentNode.appendChild(this.overlay)
 
     this.cropBtn = document.createElement('div')
     this.cropBtn.innerText = '确认裁剪'
     Object.assign(this.cropBtn.style, this.options.cropBtnStyles)
+
     this.quill.root.parentNode.appendChild(this.cropBtn)
 
     this.repositionElements()
+
+    this.cropBtn.addEventListener('click', () => {
+      const canvas = document.createElement('canvas')
+      const overlayRect = this.overlay.getBoundingClientRect()
+      const imgRect = this.img.getBoundingClientRect()
+      const scale = imgRect.width / this.img.naturalWidth
+      console.log(overlayRect, imgRect)
+      canvas.width = overlayRect.width
+      canvas.height = overlayRect.height
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(
+          this.img,
+          overlayRect.left - imgRect.left,
+          overlayRect.top - imgRect.top,
+          overlayRect.width / scale,
+          overlayRect.height / scale,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        )
+      canvas.toBlob(blob => {
+        if (this.options.upload) {
+          this.options.upload(blob, url => {
+            this.img.src = url
+            this.hide()
+          })
+        }
+      })
+    })
   }
 
   hideOverlay = () => {

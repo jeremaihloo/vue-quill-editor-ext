@@ -7,6 +7,7 @@
 
 <script>
 // require sources
+import defaultsdeep from 'lodash.defaultsdeep'
 import _Quill from 'quill'
 import defaultOptions from './options'
 const Quill = window.Quill || _Quill
@@ -78,12 +79,18 @@ export default {
     delete this.quill
   },
   methods: {
+    toJSON (obj) {
+      return JSON.parse(JSON.stringify(obj))
+    },
     // Init Quill instance
     initialize () {
       if (this.$el) {
         // Options
-        this._options = Object.assign({}, this.defaultOptions, this.globalOptions, this.options)
-
+        const options = Object.assign({}, this.options)
+        this._options = defaultsdeep({}, this.defaultOptions, this.globalOptions, this.options)
+        console.log('default', this.defaultOptions)
+        console.log('options', options)
+        console.log('_options', this._options)
         // Instance
         this.quill = new Quill(this.$refs.editor, this._options)
 

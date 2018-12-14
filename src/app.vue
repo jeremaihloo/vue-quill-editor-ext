@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <editor></editor>
+    <editor :options="options"></editor>
   </div>
 </template>
 
@@ -10,11 +10,29 @@ import Editor from './components/editor.vue'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+// import axios from 'axios'
 
+const options = {
+  modules: {
+    imageResize: {
+      modules: ['Resize'],
+      upload: function (blob, cb) {
+        const url = window.URL.createObjectURL(blob)
+        console.log('url', url)
+        cb(url)
+      }
+    }
+  }
+}
 export default {
   name: 'app',
   components: {
     Editor
+  },
+  data () {
+    return {
+      options: options
+    }
   }
 }
 </script>
