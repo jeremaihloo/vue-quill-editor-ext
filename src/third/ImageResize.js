@@ -103,14 +103,17 @@ export default class ImageResize {
   }
 
   data2blob (base64Data) {
-    const byteString = atob(base64Data.split(',')[1])// base64 解码
-    const mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0]// mime类型
-    const arrayBuffer = new ArrayBuffer(byteString.length)// 创建缓冲数组
-    const intArray = new Uint8Array(arrayBuffer)// 创建视图
+    const byteString = atob(base64Data.split(',')[1]) // base64 解码
+    const mimeString = base64Data
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0] // mime类型
+    const arrayBuffer = new ArrayBuffer(byteString.length) // 创建缓冲数组
+    const intArray = new Uint8Array(arrayBuffer) // 创建视图
     for (var i = 0; i < byteString.length; i++) {
       intArray[i] = byteString.charCodeAt(i)
     }
-    return new Blob([intArray], {type: mimeString})// 转成blob
+    return new Blob([intArray], { type: mimeString }) // 转成blob
   }
   showOverlay = () => {
     if (this.overlay) {
@@ -147,15 +150,20 @@ export default class ImageResize {
     this.repositionElements()
 
     this.cropBtn.addEventListener('click', () => {
-      const canvas = document.createElement('canvas')
-      const overlayRect = this.overlay.getBoundingClientRect()
-      const imgRect = this.img.getBoundingClientRect()
-      const scale = imgRect.width / this.img.naturalWidth
-      canvas.width = overlayRect.width
-      canvas.height = overlayRect.height
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(
-          this.img,
+      const img = new Image()
+      img.setAttribute('crossOrigin', 'Anonymous')
+      img.crossOrigin = 'Anonymous'
+      img.src = this.img.src
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const overlayRect = this.overlay.getBoundingClientRect()
+        const imgRect = this.img.getBoundingClientRect()
+        const scale = imgRect.width / this.img.naturalWidth
+        canvas.width = overlayRect.width
+        canvas.height = overlayRect.height
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(
+          img,
           overlayRect.left - imgRect.left,
           overlayRect.top - imgRect.top,
           overlayRect.width / scale,
@@ -165,14 +173,15 @@ export default class ImageResize {
           canvas.width,
           canvas.height
         )
-      canvas.toBlob(blob => {
-        if (this.options.upload) {
-          this.options.upload(blob, url => {
-            this.img.src = url
-            this.hide()
-          })
-        }
-      })
+        canvas.toBlob(blob => {
+          if (this.options.upload) {
+            this.options.upload(blob, url => {
+              this.img.src = url
+              this.hide()
+            })
+          }
+        })
+      }
     })
   }
 
