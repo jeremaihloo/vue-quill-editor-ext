@@ -151,7 +151,6 @@ export default class ImageResize {
       const overlayRect = this.overlay.getBoundingClientRect()
       const imgRect = this.img.getBoundingClientRect()
       const scale = imgRect.width / this.img.naturalWidth
-      console.log(overlayRect, imgRect)
       canvas.width = overlayRect.width
       canvas.height = overlayRect.height
       const ctx = canvas.getContext('2d')

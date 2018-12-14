@@ -86,11 +86,7 @@ export default {
     initialize () {
       if (this.$el) {
         // Options
-        const options = Object.assign({}, this.options)
         this._options = defaultsdeep({}, this.defaultOptions, this.globalOptions, this.options)
-        console.log('default', this.defaultOptions)
-        console.log('options', options)
-        console.log('_options', this._options)
         // Instance
         this.quill = new Quill(this.$refs.editor, this._options)
 

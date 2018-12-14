@@ -18,7 +18,6 @@ const options = {
       modules: ['Resize'],
       upload: function (blob, cb) {
         const url = window.URL.createObjectURL(blob)
-        console.log('url', url)
         cb(url)
       }
     }
