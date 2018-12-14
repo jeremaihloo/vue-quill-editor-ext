@@ -85,30 +85,56 @@ export class Resize extends BaseModule {
     // update image size
     const deltaX = evt.clientX - this.dragStartX
     const deltaY = evt.clientY - this.dragStartY
+    let width = this.position.width
+    let height = this.position.height
+    let top = this.position.top
+    let left = this.position.left
+    const rect = this.img.getBoundingClientRect()
     if (this.dragBox === this.boxes[0]) {
-      this.position.width = Math.round(this.preDrag.width - deltaX)
-      this.position.height = Math.round(this.preDrag.height - deltaY)
-      this.position.left = Math.round(this.preDrag.left + deltaX)
-      this.position.top = Math.round(this.preDrag.top + deltaY)
+      width = Math.round(this.preDrag.width - deltaX)
+      height = Math.round(this.preDrag.height - deltaY)
+      left = Math.round(this.preDrag.left + deltaX)
+      top = Math.round(this.preDrag.top + deltaY)
+      if (left < rect.left) {
+        left = rect.left
+      }
+      if (top < rect.top) {
+        top = rect.top
+      }
     }
 
     if (this.dragBox === this.boxes[1]) {
-      this.position.width = Math.round(this.preDrag.width + deltaX)
-      this.position.height = Math.round(this.preDrag.height - deltaY)
-      this.position.top = Math.round(this.preDrag.top + deltaY)
+      width = Math.round(this.preDrag.width + deltaX)
+      height = Math.round(this.preDrag.height - deltaY)
+      top = Math.round(this.preDrag.top + deltaY)
+      if (top < rect.top) {
+        top = rect.top
+      }
     }
 
     if (this.dragBox === this.boxes[2]) {
-      this.position.width = Math.round(this.preDrag.width + deltaX)
-      this.position.height = Math.round(this.preDrag.height + deltaY)
+      width = Math.round(this.preDrag.width + deltaX)
+      height = Math.round(this.preDrag.height + deltaY)
     }
 
     if (this.dragBox === this.boxes[3]) {
-      this.position.width = Math.round(this.preDrag.width - deltaX)
-      this.position.height = Math.round(this.preDrag.height + deltaY)
-      this.position.left = Math.round(this.preDrag.left + deltaX)
+      width = Math.round(this.preDrag.width - deltaX)
+      height = Math.round(this.preDrag.height + deltaY)
+      left = Math.round(this.preDrag.left + deltaX)
+      if (left < rect.left) {
+        left = rect.left
+      }
     }
-
+    if (width > rect.width) {
+      width = rect.width
+    }
+    if (height > rect.height) {
+      height = rect.height
+    }
+    this.position.width = width
+    this.position.height = height
+    this.position.top = top
+    this.position.left = left
     this.requestUpdate()
   }
 
