@@ -18,6 +18,15 @@ var webpackConfig = merge(baseWebpackConfig, {
       extract: true
     })
   },
+  externals: {
+    quill: {
+        root: 'Quill',
+        commonjs: 'quill',
+        commonjs2: 'quill',
+        amd: 'quill'
+    },
+    'lodash.defaultsdeep': 'lodash.defaultsdeep'
+  },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,

@@ -15,7 +15,7 @@ export class DisplaySize extends BaseModule {
   onDestroy = () => {}
 
   onUpdate = () => {
-    if (!this.display || !this.img) {
+    if (!this.display || !this.overlay) {
       return
     }
 
@@ -28,7 +28,7 @@ export class DisplaySize extends BaseModule {
         bottom: '4px',
         left: 'auto'
       })
-    } else if (this.img.style.float === 'right') {
+    } else if (this.overlay.style.float === 'right') {
       // position off bottom left
       const dispRect = this.display.getBoundingClientRect()
       Object.assign(this.display.style, {
@@ -48,7 +48,7 @@ export class DisplaySize extends BaseModule {
   }
 
   getCurrentSize = () => [
-    this.img.width,
-    Math.round((this.img.width / this.img.naturalWidth) * this.img.naturalHeight)
+    this.overlay.getBoundingClientRect().width,
+    this.overlay.getBoundingClientRect().height
   ]
 }
