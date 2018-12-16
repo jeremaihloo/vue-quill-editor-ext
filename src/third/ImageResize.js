@@ -115,6 +115,42 @@ export default class ImageResize {
     }
     return new Blob([intArray], { type: mimeString }) // 转成blob
   }
+
+  onCropBtnClick = () => {
+    const img = new Image()
+    img.setAttribute('crossOrigin', 'Anonymous')
+    img.crossOrigin = 'Anonymous'
+    img.src = this.img.src
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      const overlayRect = this.overlay.getBoundingClientRect()
+      const imgRect = this.img.getBoundingClientRect()
+      const scale = imgRect.width / this.img.naturalWidth
+      canvas.width = overlayRect.width
+      canvas.height = overlayRect.height
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(
+        img,
+        overlayRect.left - imgRect.left,
+        overlayRect.top - imgRect.top,
+        overlayRect.width / scale,
+        overlayRect.height / scale,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      )
+      if (this.options.upload) {
+        canvas.toBlob(blob => {
+          this.options.upload(blob, url => {
+            this.img.src = url
+            this.hide()
+          })
+        })
+      }
+    }
+  }
+
   showOverlay = () => {
     if (this.overlay) {
       this.hideOverlay()
@@ -149,40 +185,7 @@ export default class ImageResize {
 
     this.repositionElements()
 
-    this.cropBtn.addEventListener('click', () => {
-      const img = new Image()
-      img.setAttribute('crossOrigin', 'Anonymous')
-      img.crossOrigin = 'Anonymous'
-      img.src = this.img.src
-      img.onload = () => {
-        const canvas = document.createElement('canvas')
-        const overlayRect = this.overlay.getBoundingClientRect()
-        const imgRect = this.img.getBoundingClientRect()
-        const scale = imgRect.width / this.img.naturalWidth
-        canvas.width = overlayRect.width
-        canvas.height = overlayRect.height
-        const ctx = canvas.getContext('2d')
-        ctx.drawImage(
-          img,
-          overlayRect.left - imgRect.left,
-          overlayRect.top - imgRect.top,
-          overlayRect.width / scale,
-          overlayRect.height / scale,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        )
-        canvas.toBlob(blob => {
-          if (this.options.upload) {
-            this.options.upload(blob, url => {
-              this.img.src = url
-              this.hide()
-            })
-          }
-        })
-      }
-    })
+    this.cropBtn.addEventListener('click', this.onCropBtnClick)
   }
 
   hideOverlay = () => {
@@ -225,8 +228,8 @@ export default class ImageResize {
     }
     Object.assign(this.overlay.style, overStyle)
     const cropStyle = {
-      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop}px`
+      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width + 5}px`,
+      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10}px`
     }
     Object.assign(this.cropBtn.style, cropStyle)
   }

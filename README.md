@@ -1,21 +1,54 @@
 # vue-quill-editor-ext
 
-> A Vue.js project
+修改`vue-quill-editor`，实现更多内置功能
 
-## Build Setup
+## Features 
 
-``` bash
-# install dependencies
-npm install
+1. 编辑器内的图片裁剪功能，类似于微信公众号编辑器的裁剪方式
+2. 以px为单位的字体大小设置
+3. 字间距设置
+4. 行高设置
 
-# serve with hot reload at localhost:8080
-npm run dev
+## Usage
 
-# build for production with minification
-npm run build
+使用上完全与原`vue-quill-editor`一样
 
-# build for production and view the bundle analyzer report
-npm run build --report
+### 原`vue-quill-editor`替换为`vue-quill-editor-ext`:
+
+```js
+// 原来的使用方式
+import VueQuillEditor from 'vue-quill-editor';
+// 替换为下面即可，不用做其他任何改动
+import VueQuillEditor from 'vue-quill-editor-ext';
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### 上传配置
+
+```js
+const options = {
+  modules: {
+    imageResize: {
+      modules: ['Resize'],
+      upload: function (blob, cb) {
+        const data = new FormData()
+        data.append('smfile', blob)
+        axios.post('https://sm.ms/api/upload', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+          .then(res => {
+            cb(res.data.data.url)
+          })
+          .catch(res => {
+            console.log(res)
+          })
+      }
+    }
+  }
+}
+```
+
+```html
+<editor :options="options"></editor>
+```
