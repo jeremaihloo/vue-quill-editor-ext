@@ -86,7 +86,7 @@ export default {
   margin-top: 60px;
 }
 .container {
-  width: 1400px;
+  width: 960px;
   margin-left: auto;
   margin-right: auto;
 }

@@ -101,6 +101,12 @@ export class Resize extends BaseModule {
       if (top < rect.top) {
         top = rect.top
       }
+      if (top > rect.top + rect.height - 20) {
+        top = rect.top + rect.height - 20
+      }
+      if (left > rect.left + rect.width - 20) {
+        left = rect.left + rect.width - 20
+      }
     }
 
     if (this.dragBox === this.boxes[1]) {
@@ -110,11 +116,23 @@ export class Resize extends BaseModule {
       if (top < rect.top) {
         top = rect.top
       }
+      if (left + width > rect.width + rect.left) {
+        width = rect.width + rect.left - left
+      }
+      if (top > rect.top + rect.height - 20) {
+        top = rect.top + rect.height - 20
+      }
     }
 
     if (this.dragBox === this.boxes[2]) {
       width = Math.round(this.preDrag.width + deltaX)
       height = Math.round(this.preDrag.height + deltaY)
+      if (left + width > rect.width + rect.left) {
+        width = rect.width + rect.left - left
+      }
+      if (top + height > rect.top + rect.height) {
+        height = rect.height + rect.top - top
+      }
     }
 
     if (this.dragBox === this.boxes[3]) {
@@ -124,12 +142,24 @@ export class Resize extends BaseModule {
       if (left < rect.left) {
         left = rect.left
       }
+      if (top + height > rect.top + rect.height) {
+        height = rect.height + rect.top - top
+      }
+      if (left > rect.left + rect.width - 20) {
+        left = rect.left + rect.width - 20
+      }
     }
     if (width > rect.width) {
       width = rect.width
     }
     if (height > rect.height) {
       height = rect.height
+    }
+    if (width < 20) {
+      width = 20
+    }
+    if (height < 20) {
+      height = 20
     }
     this.position.width = width
     this.position.height = height
