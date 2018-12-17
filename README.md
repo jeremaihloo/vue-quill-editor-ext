@@ -50,5 +50,5 @@ const options = {
 ```
 
 ```html
-<editor :options="options"></editor>
+<quill-editor :options="options"></quill-editor>
 ```
