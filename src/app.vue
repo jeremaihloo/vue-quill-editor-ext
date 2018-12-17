@@ -2,7 +2,7 @@
   <div id="app">
     <div class="container">
       <h2>简单例子</h2>
-      <editor style="height:200px" :options="simpleOptions"></editor>
+      <editor :options="simpleOptions"></editor>
       <h2>上传例子：</h2>
       <editor :options="options"></editor>
 
@@ -81,7 +81,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
