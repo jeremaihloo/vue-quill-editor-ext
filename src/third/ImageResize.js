@@ -122,6 +122,7 @@ export default class ImageResize {
     } else {
       this.options.mode = 'crop'
       this.cropBtn.innerText = '确认裁剪'
+      this.btnResize.style.display = 'none'
     }
   }
 
@@ -211,10 +212,12 @@ export default class ImageResize {
 
   onBtnResizeClick = (e) => {
     if (this.options.mode === 'resize') {
-      this.doCrop()
+      // this.doCrop()
+      this.hide()
     } else {
       this.options.mode = 'resize'
       this.btnResize.innerText = '确认大小'
+      this.cropBtn.style.display = 'none'
     }
   }
 
@@ -267,6 +270,12 @@ export default class ImageResize {
       width: `${imgRect.width}px`,
       height: `${imgRect.height}px`
     })
+
+    const resizeStyle = {
+      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width + 5}px`,
+      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10 + 40}px`
+    }
+    Object.assign(this.btnResize.style, resizeStyle)
   }
 
   repositionCrop = () => {
