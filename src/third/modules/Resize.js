@@ -160,12 +160,7 @@ export class Resize extends BaseModule {
         left = rect.left + rect.width - 20
       }
     }
-    if (width > rect.width) {
-      width = rect.width
-    }
-    if (height > rect.height) {
-      height = rect.height
-    }
+
     if (width < 20) {
       width = 20
     }
@@ -177,6 +172,7 @@ export class Resize extends BaseModule {
     this.position.top = top
     this.position.left = left
   }
+
   handleModeResize = (evt) => {
     // update image size
     const deltaX = evt.clientX - this.dragStartX

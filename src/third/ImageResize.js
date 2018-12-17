@@ -127,6 +127,7 @@ export default class ImageResize {
   }
 
   doCrop = () => {
+    this.cropBtn.innerText = '裁剪中'
     const img = new Image()
     img.setAttribute('crossOrigin', 'Anonymous')
     img.crossOrigin = 'Anonymous'
