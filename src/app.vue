@@ -6,7 +6,7 @@
       </div>
 
       <h2>简单例子</h2>
-      <editor :options="simpleOptions"></editor>
+      <editor style="height:200px" :options="simpleOptions"></editor>
       <h2>上传例子：</h2>
       <editor :options="options"></editor>
     </div>

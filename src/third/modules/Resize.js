@@ -82,7 +82,18 @@ export class Resize extends BaseModule {
       // image not set yet
       return
     }
-    // update image size
+    console.log(this.options.mode)
+    if (this.options.mode === 'resize') {
+      console.log('resizing')
+      this.handleModeResize(evt)
+    } else if (this.options.mode === 'crop') {
+      this.handleModeCrop(evt)
+    }
+    this.requestUpdate()
+  }
+
+  handleModeCrop = (evt) => {
+// update image size
     const deltaX = evt.clientX - this.dragStartX
     const deltaY = evt.clientY - this.dragStartY
     let width = this.position.width
@@ -165,7 +176,17 @@ export class Resize extends BaseModule {
     this.position.height = height
     this.position.top = top
     this.position.left = left
-    this.requestUpdate()
+  }
+  handleModeResize = (evt) => {
+    // update image size
+    const deltaX = evt.clientX - this.dragStartX
+    if (this.dragBox === this.boxes[0] || this.dragBox === this.boxes[3]) {
+        // left-side resize handler; dragging right shrinks image
+      this.img.width = Math.round(this.preDrag.width - deltaX)
+    } else {
+        // right-side resize handler; dragging right enlarges image
+      this.img.width = Math.round(this.preDrag.width + deltaX)
+    }
   }
 
   setCursor = value => {

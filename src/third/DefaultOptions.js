@@ -28,5 +28,15 @@ export default {
     cursor: 'pointer',
     textAlign: 'center',
     borderRadius: '5px'
+  },
+  btnResizeStyles: {
+    backgroundColor: '#cccccc',
+    width: '80px',
+    height: '30px',
+    position: 'absolute',
+    lineHeight: '30px',
+    cursor: 'pointer',
+    textAlign: 'center',
+    borderRadius: '5px'
   }
 }
