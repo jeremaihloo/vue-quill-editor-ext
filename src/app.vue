@@ -89,7 +89,13 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.markdown-body{
+.markdown-body {
   text-align: left;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  height: 600px !important;
+  overflow: scroll !important;
+  background-color: white !important;
 }
 </style>

@@ -163,8 +163,23 @@ export default class ImageResize {
   }
 
   onScroll = (e) => {
-    console.log(e)
     this.repositionElements()
+  }
+
+  repositionBtnCrop = (containerRect, imgRect, parent) => {
+    const cropStyle = {
+      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width - 5 - 80}px`,
+      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10}px`
+    }
+    Object.assign(this.cropBtn.style, cropStyle)
+  }
+
+  repositionBtnResize = (containerRect, imgRect, parent) => {
+    const resizeStyle = {
+      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width - 5 - 80}px`,
+      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10 + 40}px`
+    }
+    Object.assign(this.btnResize.style, resizeStyle)
   }
 
   showOverlay = () => {
@@ -255,7 +270,7 @@ export default class ImageResize {
     } else if (this.options.mode === 'resize') {
       this.repositionResize()
     } else {
-      this.repositionCrop()
+      this.repositionResize()
     }
   }
 
@@ -264,24 +279,21 @@ export default class ImageResize {
     const parent = this.quill.root.parentNode
     const imgRect = this.img.getBoundingClientRect()
     const containerRect = parent.getBoundingClientRect()
-
+    console.log(parent.scrollTop)
     Object.assign(this.overlay.style, {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
       top: `${imgRect.top - containerRect.top + parent.scrollTop}px`,
       width: `${imgRect.width}px`,
       height: `${imgRect.height}px`
     })
-
-    const resizeStyle = {
-      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width + 5}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10 + 40}px`
-    }
-    Object.assign(this.btnResize.style, resizeStyle)
+    this.repositionBtnCrop(containerRect, imgRect, parent)
+    this.repositionBtnResize(containerRect, imgRect, parent)
   }
 
   repositionCrop = () => {
     // position the overlay over the image
     const parent = this.quill.root.parentNode
+    console.log('parent', parent.scrollTop)
     const imgRealRect = this.img.getBoundingClientRect()
     const imgRect = this.position
     imgRect.top = this.position.top ? this.position.top : imgRealRect.top
@@ -295,17 +307,9 @@ export default class ImageResize {
       height: `${imgRect.height}px`
     }
     Object.assign(this.overlay.style, overStyle)
-    const cropStyle = {
-      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width + 5}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10}px`
-    }
-    Object.assign(this.cropBtn.style, cropStyle)
 
-    const resizeStyle = {
-      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width + 5}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10 + 40}px`
-    }
-    Object.assign(this.btnResize.style, resizeStyle)
+    this.repositionBtnCrop(containerRect, imgRect, parent)
+    this.repositionBtnResize(containerRect, imgRect, parent)
   }
 
   hide = () => {

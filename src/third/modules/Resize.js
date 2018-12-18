@@ -61,7 +61,13 @@ export class Resize extends BaseModule {
     this.dragStartX = evt.clientX
     this.dragStartY = evt.clientY
     // store the width before the drag
-    this.preDrag = Object.assign({}, this.position)
+    if (this.options.mode === 'crop') {
+      this.preDrag = Object.assign({}, this.position)
+    } else {
+      this.preDrag = Object.assign({}, {
+        width: this.img.width
+      })
+    }
     // set the proper cursor everywhere
     this.setCursor(this.dragBox.style.cursor)
     // listen for movement and mouseup
