@@ -309,7 +309,7 @@ export default class ImageResize {
     console.log(newPosition)
     const overStyle = {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop}px`,
+      top: `${imgRect.top - containerRect.top + parent.scrollTop - (this.scrollTop || 0)}px`,
       width: `${imgRect.width}px`,
       height: `${imgRect.height}px`
     }
