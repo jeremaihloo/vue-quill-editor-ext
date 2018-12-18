@@ -279,6 +279,7 @@ export default class ImageResize {
   repositionResize = () => {
 // position the overlay over the image
     const parent = this.quill.root.parentNode
+    console.log(parent)
     const imgRect = this.img.getBoundingClientRect()
     const containerRect = parent.getBoundingClientRect()
     Object.assign(this.overlay.style, {
