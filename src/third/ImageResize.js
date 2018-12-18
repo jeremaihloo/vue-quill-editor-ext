@@ -163,6 +163,7 @@ export default class ImageResize {
   }
 
   onScroll = (e) => {
+    this.scrollTop = e.target.scrollTop
     this.repositionElements()
   }
 
@@ -187,11 +188,12 @@ export default class ImageResize {
       this.hideOverlay()
     }
 
+    const rect = this.img.getBoundingClientRect()
     this.position = {
-      left: this.img.left,
-      top: this.img.top,
-      width: this.img.width,
-      height: this.img.height
+      left: rect.left,
+      top: rect.top,
+      width: rect.width,
+      height: rect.height
     }
 
     this.quill.setSelection(null)
@@ -279,7 +281,6 @@ export default class ImageResize {
     const parent = this.quill.root.parentNode
     const imgRect = this.img.getBoundingClientRect()
     const containerRect = parent.getBoundingClientRect()
-    console.log(parent.scrollTop)
     Object.assign(this.overlay.style, {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
       top: `${imgRect.top - containerRect.top + parent.scrollTop}px`,
@@ -293,13 +294,19 @@ export default class ImageResize {
   repositionCrop = () => {
     // position the overlay over the image
     const parent = this.quill.root.parentNode
-    console.log('parent', parent.scrollTop)
     const imgRealRect = this.img.getBoundingClientRect()
     const imgRect = this.position
     imgRect.top = this.position.top ? this.position.top : imgRealRect.top
     imgRect.left = this.position.left ? this.position.left : imgRealRect.left
     const containerRect = parent.getBoundingClientRect()
-
+    const newPosition = {
+      left: imgRect.left - containerRect.left - 1 + parent.scrollLeft,
+      top: imgRect.top - containerRect.top + parent.scrollTop,
+      width: imgRect.width,
+      height: imgRect.height
+    }
+    console.log('top', this.position.top)
+    console.log(newPosition)
     const overStyle = {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
       top: `${imgRect.top - containerRect.top + parent.scrollTop}px`,

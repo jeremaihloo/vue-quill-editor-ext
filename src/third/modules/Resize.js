@@ -88,9 +88,7 @@ export class Resize extends BaseModule {
       // image not set yet
       return
     }
-    console.log(this.options.mode)
     if (this.options.mode === 'resize') {
-      console.log('resizing')
       this.handleModeResize(evt)
     } else if (this.options.mode === 'crop') {
       this.handleModeCrop(evt)
@@ -172,6 +170,18 @@ export class Resize extends BaseModule {
     }
     if (height < 20) {
       height = 20
+    }
+    if (width > rect.width) {
+      width = rect.width
+    }
+    if (height > rect.height) {
+      height = rect.height
+    }
+    if (left < rect.left) {
+      left = rect.left
+    }
+    if (top < rect.top) {
+      top = rect.top
     }
     this.position.width = width
     this.position.height = height
