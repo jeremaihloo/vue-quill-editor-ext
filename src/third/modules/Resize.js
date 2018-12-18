@@ -145,9 +145,9 @@ export class Resize extends BaseModule {
       if (left + width > rect.width + rect.left) {
         width = rect.width + rect.left - left
       }
-      if (top + height > rect.top + rect.height) {
-        height = rect.height + rect.top - top
-      }
+      // if (top + height > rect.top + rect.height) {
+      //   height = rect.height + rect.top - top
+      // }
     }
 
     if (this.dragBox === this.boxes[3]) {
@@ -157,9 +157,9 @@ export class Resize extends BaseModule {
       if (left < rect.left) {
         left = rect.left
       }
-      if (top + height > rect.top + rect.height) {
-        height = rect.height + rect.top - top
-      }
+      // if (top + height > rect.top + rect.height) {
+      //   height = rect.height + rect.top - top
+      // }
       if (left > rect.left + rect.width - 20) {
         left = rect.left + rect.width - 20
       }
