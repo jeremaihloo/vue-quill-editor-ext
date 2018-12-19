@@ -27,7 +27,8 @@ export default {
     lineHeight: '30px',
     cursor: 'pointer',
     textAlign: 'center',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    zIndex: '1000'
   },
   btnResizeStyles: {
     backgroundColor: '#cccccc',

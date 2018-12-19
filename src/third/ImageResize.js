@@ -4,6 +4,8 @@ import { DisplaySize } from './modules/DisplaySize'
 import { Toolbar } from './modules/Toolbar'
 import { Resize } from './modules/Resize'
 
+import Cropper from 'cropperjs'
+
 const knownModules = { DisplaySize, Toolbar, Resize }
 
 /**
@@ -122,6 +124,34 @@ export default class ImageResize {
     if (this.options.mode === 'crop') {
       this.doCrop()
     } else {
+      const shadow = document.createElement('div')
+      Object.assign(shadow.style, {
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(255,255,255,1)',
+        position: 'fixed',
+        zIndex: '1000',
+        left: '0',
+        top: '0'
+      })
+      document.body.appendChild(shadow)
+
+      // this.cropBtn.style.position = 'fixed'
+
+      const cropper = new Cropper(this.img, {
+        aspectRatio: 16 / 9,
+        crop (event) {
+          console.log(event.detail.x)
+          console.log(event.detail.y)
+          console.log(event.detail.width)
+          console.log(event.detail.height)
+          console.log(event.detail.rotate)
+          console.log(event.detail.scaleX)
+          console.log(event.detail.scaleY)
+        }
+      })
+      shadow.appendChild(cropper)
+
       this.options.mode = 'crop'
       this.cropBtn.innerText = '确认裁剪'
       this.btnResize.style.display = 'none'
@@ -164,13 +194,19 @@ export default class ImageResize {
     }
   }
 
-  onScroll = (e) => {
+  onScroll = e => {
     this.repositionElements()
   }
 
   repositionBtnCrop = (containerRect, imgRect, parent) => {
     const cropStyle = {
-      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width - 5 - 80}px`,
+      left: `${imgRect.left -
+        containerRect.left -
+        1 +
+        parent.scrollLeft +
+        imgRect.width -
+        5 -
+        80}px`,
       top: `${imgRect.top - containerRect.top - parent.scrollTop + 10}px`
     }
     Object.assign(this.cropBtn.style, cropStyle)
@@ -178,7 +214,13 @@ export default class ImageResize {
 
   repositionBtnResize = (containerRect, imgRect, parent) => {
     const resizeStyle = {
-      left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width - 5 - 80}px`,
+      left: `${imgRect.left -
+        containerRect.left -
+        1 +
+        parent.scrollLeft +
+        imgRect.width -
+        5 -
+        80}px`,
       top: `${imgRect.top - containerRect.top - parent.scrollTop + 10 + 40}px`
     }
     Object.assign(this.btnResize.style, resizeStyle)
@@ -229,7 +271,7 @@ export default class ImageResize {
     this.btnResize.addEventListener('click', this.onBtnResizeClick)
   }
 
-  onBtnResizeClick = (e) => {
+  onBtnResizeClick = e => {
     if (this.options.mode === 'resize') {
       // this.doCrop()
       this.hide()
@@ -278,7 +320,7 @@ export default class ImageResize {
   }
 
   repositionResize = () => {
-// position the overlay over the image
+    // position the overlay over the image
     const parent = this.quill.root.parentNode
     const imgRect = this.img.getBoundingClientRect()
     const containerRect = parent.getBoundingClientRect()
@@ -294,7 +336,12 @@ export default class ImageResize {
 
   repositionCrop = () => {
     // position the overlay over the image
-    console.log('root.top', this.quill.root.scrollTop, 'root.parentNode.top', this.quill.root.parentNode.scrollTop)
+    console.log(
+      'root.top',
+      this.quill.root.scrollTop,
+      'root.parentNode.top',
+      this.quill.root.parentNode.scrollTop
+    )
     const parent = this.quill.root
     // const imgRealRect = this.img.getBoundingClientRect()
     const imgRect = this.position
@@ -302,10 +349,19 @@ export default class ImageResize {
     // imgRect.top = this.position.top ? this.position.top : imgRealRect.top
     // imgRect.left = this.position.left ? this.position.left : imgRealRect.left
     const containerRect = parent.getBoundingClientRect()
-    console.log('top', imgRect.top, 'container.top', containerRect.top, 'parent.scrolltop', parent.scrollTop)
+    console.log(
+      'top',
+      imgRect.top,
+      'container.top',
+      containerRect.top,
+      'parent.scrolltop',
+      parent.scrollTop
+    )
     const newPosition = {
       left: imgRect.left - containerRect.left - 1 + parent.scrollLeft,
-      top: imgRect.top - containerRect.top - parent.scrollTop - this.quill.root.parentNode.scrollTop || 0,
+      top:
+        imgRect.top - containerRect.top - parent.scrollTop - this.quill.root.parentNode.scrollTop ||
+        0,
       width: imgRect.width,
       height: imgRect.height
     }
