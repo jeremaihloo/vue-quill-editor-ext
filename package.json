@@ -1,6 +1,6 @@
 {
   "name": "vue-quill-editor-ext",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A Vue.js project",
   "author": "jeremaihloo <jeremaihloo1024@gmail.com>",
   "main": "dist/lib/vue-quill-editor-ext.min.js",
