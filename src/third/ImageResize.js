@@ -97,6 +97,8 @@ export default class ImageResize {
     // keep track of this img element
     this.img = img
 
+    this.img.style.zIndex = '1000'
+
     this.showOverlay()
 
     this.initializeModules()
@@ -163,14 +165,13 @@ export default class ImageResize {
   }
 
   onScroll = (e) => {
-    this.scrollTop = e.target.scrollTop
     this.repositionElements()
   }
 
   repositionBtnCrop = (containerRect, imgRect, parent) => {
     const cropStyle = {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width - 5 - 80}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10}px`
+      top: `${imgRect.top - containerRect.top - parent.scrollTop + 10}px`
     }
     Object.assign(this.cropBtn.style, cropStyle)
   }
@@ -178,7 +179,7 @@ export default class ImageResize {
   repositionBtnResize = (containerRect, imgRect, parent) => {
     const resizeStyle = {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft + imgRect.width - 5 - 80}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop + 10 + 40}px`
+      top: `${imgRect.top - containerRect.top - parent.scrollTop + 10 + 40}px`
     }
     Object.assign(this.btnResize.style, resizeStyle)
   }
@@ -279,12 +280,11 @@ export default class ImageResize {
   repositionResize = () => {
 // position the overlay over the image
     const parent = this.quill.root.parentNode
-    console.log(parent)
     const imgRect = this.img.getBoundingClientRect()
     const containerRect = parent.getBoundingClientRect()
     Object.assign(this.overlay.style, {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop}px`,
+      top: `${imgRect.top - containerRect.top - parent.scrollTop}px`,
       width: `${imgRect.width}px`,
       height: `${imgRect.height}px`
     })
@@ -294,23 +294,24 @@ export default class ImageResize {
 
   repositionCrop = () => {
     // position the overlay over the image
-    const parent = this.quill.root.parentNode
-    const imgRealRect = this.img.getBoundingClientRect()
+    const parent = this.quill.root
+    // const imgRealRect = this.img.getBoundingClientRect()
     const imgRect = this.position
-    imgRect.top = this.position.top ? this.position.top : imgRealRect.top
-    imgRect.left = this.position.left ? this.position.left : imgRealRect.left
+    console.log('current position', this.position)
+    // imgRect.top = this.position.top ? this.position.top : imgRealRect.top
+    // imgRect.left = this.position.left ? this.position.left : imgRealRect.left
     const containerRect = parent.getBoundingClientRect()
+    console.log('top', imgRect.top, 'container.top', containerRect.top, 'parent.scrolltop', parent.scrollTop)
     const newPosition = {
       left: imgRect.left - containerRect.left - 1 + parent.scrollLeft,
-      top: imgRect.top - containerRect.top + parent.scrollTop,
+      top: imgRect.top - containerRect.top - parent.scrollTop,
       width: imgRect.width,
       height: imgRect.height
     }
-    console.log('top', this.position.top)
-    console.log(newPosition)
+    console.log('new position', newPosition)
     const overStyle = {
       left: `${imgRect.left - containerRect.left - 1 + parent.scrollLeft}px`,
-      top: `${imgRect.top - containerRect.top + parent.scrollTop - (this.scrollTop || 0)}px`,
+      top: `${imgRect.top - containerRect.top - parent.scrollTop}px`,
       width: `${imgRect.width}px`,
       height: `${imgRect.height}px`
     }
