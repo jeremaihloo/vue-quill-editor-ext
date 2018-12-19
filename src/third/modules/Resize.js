@@ -185,7 +185,6 @@ export class Resize extends BaseModule {
     }
     this.position.width = width
     this.position.height = height
-    console.log('position.top', top)
     this.position.top = top
     this.position.left = left
   }
