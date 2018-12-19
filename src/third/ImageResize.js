@@ -294,6 +294,7 @@ export default class ImageResize {
 
   repositionCrop = () => {
     // position the overlay over the image
+    console.log('root.top', this.quill.root.scrollTop, 'root.parentNode.top', this.quill.root.parentNode.scrollTop)
     const parent = this.quill.root
     // const imgRealRect = this.img.getBoundingClientRect()
     const imgRect = this.position
@@ -304,7 +305,7 @@ export default class ImageResize {
     console.log('top', imgRect.top, 'container.top', containerRect.top, 'parent.scrolltop', parent.scrollTop)
     const newPosition = {
       left: imgRect.left - containerRect.left - 1 + parent.scrollLeft,
-      top: imgRect.top - containerRect.top - parent.scrollTop,
+      top: imgRect.top - containerRect.top - parent.scrollTop - this.quill.root.parentNode.scrollTop || 0,
       width: imgRect.width,
       height: imgRect.height
     }

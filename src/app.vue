@@ -35,7 +35,8 @@ const simpleOptions = {
         cb(url)
       }
     }
-  }
+  },
+  scrollingContainer: '.ql-container'
 }
 
 const options = {
