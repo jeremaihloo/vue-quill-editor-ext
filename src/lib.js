@@ -1,5 +1,6 @@
 import _Quill from 'quill'
 import quillEditor from './components/editor.vue'
+import './styles/ext.less'
 
 const Quill = window.Quill || _Quill
 const install = (Vue, globalOptions) => {
