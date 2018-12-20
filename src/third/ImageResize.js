@@ -4,8 +4,6 @@ import { DisplaySize } from './modules/DisplaySize'
 import { Toolbar } from './modules/Toolbar'
 import { Resize } from './modules/Resize'
 
-import Cropper from 'cropperjs'
-
 const knownModules = { DisplaySize, Toolbar, Resize }
 
 /**
@@ -99,8 +97,6 @@ export default class ImageResize {
     // keep track of this img element
     this.img = img
 
-    this.img.style.zIndex = '1000'
-
     this.showOverlay()
 
     this.initializeModules()
@@ -124,28 +120,6 @@ export default class ImageResize {
     if (this.options.mode === 'crop') {
       this.doCrop()
     } else {
-      const shadow = document.createElement('div')
-      Object.assign(shadow.style, {
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(255,255,255,1)',
-        position: 'fixed',
-        zIndex: '1000',
-        left: '0',
-        top: '0'
-      })
-      document.body.appendChild(shadow)
-
-      // this.cropBtn.style.position = 'fixed'
-
-      const cropper = new Cropper(this.img, {
-        aspectRatio: 16 / 9,
-        crop (event) {
-
-        }
-      })
-      shadow.appendChild(cropper)
-
       this.options.mode = 'crop'
       this.cropBtn.innerText = '确认裁剪'
       this.btnResize.style.display = 'none'

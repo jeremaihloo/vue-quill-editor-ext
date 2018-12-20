@@ -99,4 +99,8 @@ export default {
   overflow: scroll !important;
   background-color: white !important;
 }
+
+.ql-snow .ql-editor img {
+  vertical-align: top;
+}
 </style>
