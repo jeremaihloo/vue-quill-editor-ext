@@ -100,7 +100,5 @@ export default {
   background-color: white !important;
 }
 
-.ql-snow .ql-editor img {
-  vertical-align: top;
-}
+
 </style>
