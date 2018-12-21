@@ -159,3 +159,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.ql-snow .ql-editor img {
+  vertical-align: top !important;
+}
+</style>
