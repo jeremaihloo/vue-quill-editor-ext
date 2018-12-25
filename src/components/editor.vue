@@ -13,7 +13,7 @@ import defaultOptions from './options'
 const Quill = window.Quill || _Quill
 import ImageResize from '../third/ImageResize'
 
-Quill.register('modules/imageResize', ImageResize)
+Quill.register('modules/imageResize', ImageResize, true)
 
 import extension from './extensions'
 extension.register()
