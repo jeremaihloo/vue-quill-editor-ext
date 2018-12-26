@@ -1,5 +1,7 @@
 # vue-quill-editor-ext
 
+> A vue quill editor forked from vue-quill-editor package for my person project requirements.
+> 
 修改`vue-quill-editor`，实现更多内置功能
 
 ## Features 
@@ -12,6 +14,10 @@
 ## Usage
 
 使用上完全与原`vue-quill-editor`一样
+
+```console
+yarn add vue-quill-editor
+```
 
 ### 原`vue-quill-editor`替换为`vue-quill-editor-ext`:
 
