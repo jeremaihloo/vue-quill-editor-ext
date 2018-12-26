@@ -21,6 +21,7 @@ export default {
   },
   cropBtnStyles: {
     backgroundColor: '#cccccc',
+    fontSize: '13px',
     width: '80px',
     height: '30px',
     position: 'absolute',
