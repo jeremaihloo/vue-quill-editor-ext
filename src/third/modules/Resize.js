@@ -88,11 +88,7 @@ export class Resize extends BaseModule {
       // image not set yet
       return
     }
-    if (this.options.mode === 'resize') {
-      this.handleModeResize(evt)
-    } else if (this.options.mode === 'crop') {
-      this.handleModeCrop(evt)
-    }
+    this.handleModeResize(evt)
     this.requestUpdate()
   }
 

@@ -128,20 +128,6 @@ export default class ImageResize {
     Object.assign(this.cropBtn.style, cropStyle)
   }
 
-  repositionBtnResize = (containerRect, imgRect, parent) => {
-    const resizeStyle = {
-      left: `${imgRect.left -
-        containerRect.left -
-        1 +
-        parent.scrollLeft +
-        imgRect.width -
-        5 -
-        80}px`,
-      top: `${imgRect.top - containerRect.top - parent.scrollTop + 10 + 40}px`
-    }
-    Object.assign(this.btnResize.style, resizeStyle)
-  }
-
   showOverlay = () => {
     if (this.overlay) {
       this.hideOverlay()
@@ -172,30 +158,14 @@ export default class ImageResize {
 
     this.cropBtn = document.createElement('div')
     this.cropBtn.innerText = '裁剪图片'
-    this.btnResize = document.createElement('div')
-    this.btnResize.innerHTML = '调整大小'
 
     Object.assign(this.cropBtn.style, this.options.cropBtnStyles)
-    Object.assign(this.btnResize.style, this.options.btnResizeStyles)
 
     this.quill.root.parentNode.appendChild(this.cropBtn)
-    this.quill.root.parentNode.appendChild(this.btnResize)
 
     this.repositionElements()
 
     this.cropBtn.addEventListener('click', this.onCropBtnClick)
-    this.btnResize.addEventListener('click', this.onBtnResizeClick)
-  }
-
-  onBtnResizeClick = e => {
-    if (this.options.mode === 'resize') {
-      // this.doCrop()
-      this.hide()
-    } else {
-      this.options.mode = 'resize'
-      this.btnResize.innerText = '确认大小'
-      this.cropBtn.style.display = 'none'
-    }
   }
 
   hideOverlay = () => {
@@ -208,9 +178,7 @@ export default class ImageResize {
     this.overlay = undefined
     this.quill.root.parentNode.removeChild(this.cropBtn)
     this.cropBtn = undefined
-    this.quill.root.parentNode.removeChild(this.btnResize)
-    this.btnResize = undefined
-    this.options.mode = undefined
+    this.options.mode = 'resize'
 
     // stop listening for image deletion or movement
     document.removeEventListener('keyup', this.checkImage)
@@ -226,13 +194,7 @@ export default class ImageResize {
       return
     }
 
-    if (this.options.mode === 'crop') {
-      this.repositionCrop()
-    } else if (this.options.mode === 'resize') {
-      this.repositionResize()
-    } else {
-      this.repositionResize()
-    }
+    this.repositionResize()
   }
 
   repositionResize = () => {
@@ -247,7 +209,6 @@ export default class ImageResize {
       height: `${imgRect.height}px`
     })
     this.repositionBtnCrop(containerRect, imgRect, parent)
-    this.repositionBtnResize(containerRect, imgRect, parent)
   }
 
   repositionCrop = () => {
@@ -291,7 +252,6 @@ export default class ImageResize {
     Object.assign(this.overlay.style, overStyle)
 
     this.repositionBtnCrop(containerRect, imgRect, parent)
-    this.repositionBtnResize(containerRect, imgRect, parent)
   }
 
   hide = () => {
