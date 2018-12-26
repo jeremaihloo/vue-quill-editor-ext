@@ -14,10 +14,19 @@ export class Croper {
     this.addBox('nwse-resize') // bottom right
     this.addBox('nesw-resize') // bottom left
 
+    window.onresize = () => {
+      if (this.shadow) {
+        this.onDestroy()
+      }
+    }
+
     this.rePosition()
   }
 
   rePosition = () => {
+    if (!this.shadow) {
+      return
+    }
     this.positionBoxes()
     this.positionCropArea()
   }
@@ -31,6 +40,8 @@ export class Croper {
       element = undefined
     })
     this.boxes = []
+
+    this.ir.onClipDone()
   }
 
   addCropButton = () => {
@@ -73,8 +84,8 @@ export class Croper {
       const ctx = canvas.getContext('2d')
       ctx.drawImage(
         img,
-        overlayRect.left - imgRect.left,
-        overlayRect.top - imgRect.top,
+        (overlayRect.left - imgRect.left) / scale,
+        (overlayRect.top - imgRect.top) / scale,
         overlayRect.width / scale,
         overlayRect.height / scale,
         0,
@@ -108,7 +119,8 @@ export class Croper {
     this.copied = this.ir.img.cloneNode()
     Object.assign(this.copied.style, {
       width: 'auto',
-      height: '80%',
+      maxHeight: '80%',
+      maxWidth: '80%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginTop: '5%'

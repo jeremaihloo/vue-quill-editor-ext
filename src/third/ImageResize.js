@@ -77,6 +77,10 @@ export default class ImageResize {
     this.modules = []
   }
 
+  onClipDone = () => {
+    this.hide()
+  }
+
   handleClick = evt => {
     if (evt.target && evt.target.tagName && evt.target.tagName.toUpperCase() === 'IMG') {
       if (this.img === evt.target) {
