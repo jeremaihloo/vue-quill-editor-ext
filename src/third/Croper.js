@@ -68,8 +68,8 @@ export class Croper {
       const overlayRect = this.cropArea.getBoundingClientRect()
       const imgRect = this.copied.getBoundingClientRect()
       const scale = imgRect.width / this.copied.naturalWidth
-      canvas.width = overlayRect.width
-      canvas.height = overlayRect.height
+      canvas.width = overlayRect.width / scale
+      canvas.height = overlayRect.height / scale
       const ctx = canvas.getContext('2d')
       ctx.drawImage(
         img,
