@@ -3,11 +3,9 @@ import DefaultOptions from './DefaultOptions'
 import { DisplaySize } from './modules/DisplaySize'
 import { Toolbar } from './modules/Toolbar'
 import { Resize } from './modules/Resize'
+import { Croper } from './Croper'
 
-import Cropper from 'cropperjs'
-
-const knownModules = { DisplaySize, Toolbar, Resize }
-
+const knownModules = { DisplaySize, Toolbar, Resize, Croper }
 /**
  * Custom module for quilljs to allow user to resize <img> elements
  * (Works on Chrome, Edge, Safari and replaces Firefox's native resize behavior)
@@ -46,6 +44,8 @@ export default class ImageResize {
     this.moduleClasses = this.options.modules
 
     this.modules = []
+
+    this.croper = new Croper(this)
   }
 
   initializeModules = () => {
@@ -106,96 +106,12 @@ export default class ImageResize {
     this.initializeModules()
   }
 
-  data2blob (base64Data) {
-    const byteString = atob(base64Data.split(',')[1]) // base64 解码
-    const mimeString = base64Data
-      .split(',')[0]
-      .split(':')[1]
-      .split(';')[0] // mime类型
-    const arrayBuffer = new ArrayBuffer(byteString.length) // 创建缓冲数组
-    const intArray = new Uint8Array(arrayBuffer) // 创建视图
-    for (var i = 0; i < byteString.length; i++) {
-      intArray[i] = byteString.charCodeAt(i)
-    }
-    return new Blob([intArray], { type: mimeString }) // 转成blob
-  }
-
   onCropBtnClick = () => {
     if (this.options.mode === 'crop') {
       this.doCrop()
     } else {
-      const shadow = document.createElement('div')
-      Object.assign(shadow.style, {
-        width: '100vw',
-        height: '100vh',
-        background: 'rgba(255,255,255,1)',
-        position: 'fixed',
-        zIndex: '1000',
-        left: '0',
-        top: '0'
-      })
-      document.body.appendChild(shadow)
-
-      // this.cropBtn.style.position = 'fixed'
-
-      const cropper = new Cropper(this.img, {
-        aspectRatio: 16 / 9,
-        crop (event) {
-          console.log(event.detail.x)
-          console.log(event.detail.y)
-          console.log(event.detail.width)
-          console.log(event.detail.height)
-          console.log(event.detail.rotate)
-          console.log(event.detail.scaleX)
-          console.log(event.detail.scaleY)
-        }
-      })
-      shadow.appendChild(cropper)
-
-      this.options.mode = 'crop'
-      this.cropBtn.innerText = '确认裁剪'
-      this.btnResize.style.display = 'none'
+      this.croper.showClip()
     }
-  }
-
-  doCrop = () => {
-    this.cropBtn.innerText = '裁剪中'
-    const img = new Image()
-    img.setAttribute('crossOrigin', 'Anonymous')
-    img.crossOrigin = 'Anonymous'
-    img.src = this.img.src
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      const overlayRect = this.overlay.getBoundingClientRect()
-      const imgRect = this.img.getBoundingClientRect()
-      const scale = imgRect.width / this.img.naturalWidth
-      canvas.width = overlayRect.width
-      canvas.height = overlayRect.height
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(
-        img,
-        overlayRect.left - imgRect.left,
-        overlayRect.top - imgRect.top,
-        overlayRect.width / scale,
-        overlayRect.height / scale,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      )
-      if (this.options.upload) {
-        canvas.toBlob(blob => {
-          this.options.upload(blob, url => {
-            this.img.src = url
-            this.hide()
-          })
-        })
-      }
-    }
-  }
-
-  onScroll = e => {
-    this.repositionElements()
   }
 
   repositionBtnCrop = (containerRect, imgRect, parent) => {
