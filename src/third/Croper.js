@@ -51,7 +51,7 @@ export class Croper {
     Object.assign(this.btnCrop.style, this.ir.options.cropBtnStyles, {
       left: `${imgRect.left + imgRect.width + 5}px`,
       top: `${imgRect.top + 5}px`,
-      zIndex: '1002',
+      zIndex: '9002',
       position: 'fixed'
     })
     this.btnCrop.addEventListener('click', this.onCropClick)
@@ -111,7 +111,7 @@ export class Croper {
       height: '100vh',
       background: 'rgba(255,255,255,1)',
       position: 'fixed',
-      zIndex: '1000',
+      zIndex: '9000',
       left: '0',
       top: '0',
       textAlign: 'center'
@@ -159,7 +159,7 @@ export class Croper {
       height: `${this.position.height}px`,
       background: 'rgba(0,0,0,0.5)',
       position: 'fixed',
-      zIndex: '1001',
+      zIndex: '9001',
       left: `${this.position.left}px`,
       top: `${this.position.top}px`,
       textAlign: 'center'

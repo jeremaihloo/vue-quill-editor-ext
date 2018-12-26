@@ -88,7 +88,7 @@ export default {
 
         // Update model if text changes
         this.quill.on('text-change', (delta, oldDelta, source) => {
-          if (delta.ops[0].insert && delta.ops[0].insert.image) {
+          if (delta.ops[delta.ops.length - 1].insert && delta.ops[delta.ops.length - 1].insert.image) {
             this.quill.format('align', 'center')
           }
           if (this.$refs.editor.children) {
