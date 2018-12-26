@@ -113,13 +113,18 @@ export default {
 
         // Update model if text changes
         this.quill.on('text-change', (delta, oldDelta, source) => {
-          let html = this.$refs.editor.children[0].innerHTML
-          const quill = this.quill
-          const text = this.quill.getText()
-          if (html === '<p><br></p>') html = ''
-          this._content = html
-          this.$emit('input', this._content)
-          this.$emit('change', { html, text, quill })
+          if (delta.ops[0].insert && delta.ops[0].insert.image) {
+            this.quill.format('align', 'center')
+          }
+          if (this.$refs.editor.children) {
+            let html = this.$refs.editor.children[0].innerHTML
+            const quill = this.quill
+            const text = this.quill.getText()
+            if (html === '<p><br></p>') html = ''
+            this._content = html
+            this.$emit('input', this._content)
+            this.$emit('change', { html, text, quill })
+          }
         })
 
         // Emit ready event
