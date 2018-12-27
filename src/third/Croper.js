@@ -58,14 +58,38 @@ export class Croper {
     this.shadow.appendChild(this.btnCrop)
   }
 
-  removeCropButton=() => {
+  onCropClick = e => {
+    this.doCrop()
+  }
+
+  removeCropButton = () => {
     this.btnCrop.removeEventListener('click', this.onCropClick)
     this.shadow.removeChild(this.btnCrop)
     this.btnCrop = undefined
   }
 
-  onCropClick = e => {
-    this.doCrop()
+  addCancelButton = () => {
+    const imgRect = this.copied.getBoundingClientRect()
+    this.btnCancel = document.createElement('div')
+    this.btnCancel.innerHTML = '取消裁剪'
+    Object.assign(this.btnCancel.style, this.ir.options.cropBtnStyles, {
+      left: `${imgRect.left + imgRect.width + 5}px`,
+      top: `${imgRect.top + 30 + 5 + 5}px`,
+      zIndex: '9002',
+      position: 'fixed'
+    })
+    this.btnCancel.addEventListener('click', this.onCancelClick)
+    this.shadow.appendChild(this.btnCancel)
+  }
+
+  removeCancelButton = () => {
+    this.btnCancel.removeEventListener('click', this.onCancelClick)
+    this.shadow.removeChild(this.btnCancel)
+    this.btnCancel = undefined
+  }
+
+  onCancelClick = e => {
+    this.onDestroy()
   }
 
   doCrop = () => {
@@ -139,10 +163,13 @@ export class Croper {
     document.body.appendChild(this.cropArea)
 
     this.addCropButton()
+    this.addCancelButton()
   }
 
   removeShadow = () => {
     this.removeCropButton()
+    this.removeCancelButton()
+
     this.shadow.removeChild(this.copied)
     this.copied = undefined
 
