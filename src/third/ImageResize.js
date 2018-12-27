@@ -191,6 +191,10 @@ export default class ImageResize {
     this.setUserSelect('')
   }
 
+  onScroll = e => {
+    this.repositionElements()
+  }
+
   repositionElements = () => {
     if (!this.overlay || !this.img) {
       return

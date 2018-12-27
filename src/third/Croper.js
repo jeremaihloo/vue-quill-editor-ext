@@ -336,7 +336,7 @@ export class Croper {
   }
 
   setCursor = value => {
-    ;[document.body, this.copied].forEach(el => {
+    ;[document.body, this.copied, this.ir.img].forEach(el => {
       el.style.cursor = value // eslint-disable-line no-param-reassign
     })
   }
